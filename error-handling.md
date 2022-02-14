@@ -31,15 +31,13 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ### GET `/not-a-route`
 
-- Status: ???
-
----
+404 - Status: 'path not found'
 
 ## Available Routes
 
 ### GET `/api/topics`
 
--
+500 - Internal Server Error
 
 ### GET `/api/users/:username`
 
