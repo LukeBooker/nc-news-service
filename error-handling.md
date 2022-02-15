@@ -51,8 +51,9 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ### PATCH `/api/articles/:article_id`
 
-- No `inc_votes` on request body
-- Invalid `inc_votes` (e.g. `{ inc_votes : "cat" }`)
+- 400 - Status: 'Bad Request' - No `inc_votes` on request body /api/resource/:id body: {} -> malformed body / missing required fields:
+- 400 - Status: 'Bad Request' - Invalid `inc_votes` (e.g. `{ inc_votes : "cat" }`)
+- 404 - Status: 'Not Found' - Well formed request, but `article_id` doesn't exist in the database (e.g. `/999999`)
 
 ### POST `/api/articles/:article_id/comments`
 
