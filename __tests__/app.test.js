@@ -132,4 +132,23 @@ describe("app", () => {
         });
     });
   });
+  describe("GET /api/users", () => {
+    test("Responds with an array of objects, each object with the sole property `username`", () => {
+      return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then(({ body: { users } }) => {
+          expect(users).toHaveLength(4);
+          expect(users[0].username).toEqual("butter_bridge");
+          users.forEach((user) => {
+            expect(user).toEqual(
+              expect.not.objectContaining({
+                name: expect.any(String),
+                avatar_url: expect.any(String),
+              })
+            );
+          });
+        });
+    });
+  });
 });
