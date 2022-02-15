@@ -31,22 +31,23 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ### GET `/not-a-route`
 
-404 - Status: 'path not found'
+404 - Status: 'Not Found'
 
 ## Available Routes
 
 ### GET `/api/topics`
 
-500 - Internal Server Error
+500 - Status: 'Internal Server Error'
 
 ### GET `/api/users/:username`
 
 -
+-
 
 ### GET `/api/articles/:article_id`
 
-- Bad `article_id` (e.g. `/dog`)
-- Well formed `article_id` that doesn't exist in the database (e.g. `/999999`)
+- 400 - Status: 'Bad Request' - Bad `article_id` (e.g. `/dog`)
+- 404 - Status: 'Not Found' - Well formed `article_id` that doesn't exist in the database (e.g. `/999999`)
 
 ### PATCH `/api/articles/:article_id`
 
