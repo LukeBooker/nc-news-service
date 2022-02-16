@@ -49,6 +49,24 @@ describe("app", () => {
             body: expect.any(String),
             created_at: expect.any(String),
             votes: 0,
+            comment_count: expect.any(String),
+          });
+        });
+    });
+    test("Feature Request: Responds with correct comment count", () => {
+      return request(app)
+        .get("/api/articles/1")
+        .expect(200)
+        .then(({ body: { article } }) => {
+          expect(article).toEqual({
+            article_id: 1,
+            title: "Living in the shadow of a great man",
+            topic: "mitch",
+            author: "butter_bridge",
+            body: "I find this existence challenging",
+            created_at: expect.any(String),
+            votes: 100,
+            comment_count: "11",
           });
         });
     });
@@ -75,8 +93,8 @@ describe("app", () => {
         .patch("/api/articles/1")
         .send({ inc_votes: 12 })
         .expect(200)
-        .then(({ body }) => {
-          expect(body.updatedArticle).toEqual({
+        .then(({ body: { updatedArticle } }) => {
+          expect(updatedArticle).toEqual({
             article_id: 1,
             title: "Living in the shadow of a great man",
             topic: "mitch",
@@ -92,8 +110,8 @@ describe("app", () => {
         .patch("/api/articles/1")
         .send({ inc_votes: -22 })
         .expect(200)
-        .then(({ body }) => {
-          expect(body.updatedArticle).toEqual({
+        .then(({ body: { updatedArticle } }) => {
+          expect(updatedArticle).toEqual({
             article_id: 1,
             title: "Living in the shadow of a great man",
             topic: "mitch",
