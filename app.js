@@ -9,6 +9,7 @@ const { getTopics } = require("./controllers/topics-controller");
 const {
   getArticleById,
   updateArticleVotes,
+  getArticles,
 } = require("./controllers/articles-controller");
 const { getUsers } = require("./controllers/users-controller");
 
@@ -21,6 +22,8 @@ app.get("/api/articles/:article_id", getArticleById);
 app.patch("/api/articles/:article_id", updateArticleVotes);
 
 app.get("/api/users", getUsers);
+
+app.get("/api/articles", getArticles);
 
 app.all("/*", (req, res, next) => {
   res.status(404).send({ msg: "Not Found" });

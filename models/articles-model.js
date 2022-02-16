@@ -23,3 +23,13 @@ exports.modifyArticleVotes = (articleId, newVotes) => {
     )
     .then(({ rows }) => rows[0]);
 };
+
+exports.fetchArticles = () => {
+  return db
+    .query(
+      `SELECT author, title, article_id, topic, created_at, votes FROM articles ORDER BY created_at DESC;`
+    )
+    .then((result) => {
+      return result.rows;
+    });
+};

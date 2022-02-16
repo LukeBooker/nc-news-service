@@ -133,7 +133,7 @@ describe("app", () => {
     });
   });
   describe("GET /api/users", () => {
-    test("Responds with an array of objects, each object with the sole property `username`", () => {
+    test("Status: 200, responds with an array of objects, each object with the sole property `username`", () => {
       return request(app)
         .get("/api/users")
         .expect(200)
@@ -147,6 +147,46 @@ describe("app", () => {
                 avatar_url: expect.any(String),
               })
             );
+          });
+        });
+    });
+  });
+  describe("GET /api/articles", () => {
+    test("Status: 200, responds with an array of article objects, each object with the correct properties", () => {
+      return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).toHaveLength(12);
+          articles.forEach((article) => {
+            expect(article).toEqual(
+              expect.objectContaining({
+                author: expect.any(String),
+                title: expect.any(String),
+                article_id: expect.any(Number),
+                topic: expect.any(String),
+                created_at: expect.any(String),
+                votes: expect.any(Number),
+              })
+            );
+          });
+        });
+    });
+    test("Status: 200, responds with an array of article objects sorted by date created in descending order", () => {
+      return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).toBeSortedBy("created_at", {
+            descending: true,
+          });
+          expect(articles[11]).toEqual({
+            author: "icellusedkars",
+            title: "Z",
+            article_id: 7,
+            topic: "mitch",
+            created_at: expect.any(String),
+            votes: 0,
           });
         });
     });
