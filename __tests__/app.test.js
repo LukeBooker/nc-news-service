@@ -275,4 +275,64 @@ describe("app", () => {
         });
     });
   });
+  describe("POST /api/articles/:article_id/comments", () => {
+    test("Status: 201, responds with comment newly added to the database", () => {
+      const newComment = {
+        username: "rogersop",
+        body: "This is a test comment.",
+      };
+      return request(app)
+        .post("/api/articles/2/comments")
+        .send(newComment)
+        .expect(201)
+        .then(({ body: { comment } }) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              comment_id: 19,
+              body: "This is a test comment.",
+              article_id: 2,
+              author: "rogersop",
+              votes: 0,
+              created_at: expect.any(String),
+            })
+          );
+        });
+    });
+    test("Status: 400, bad request - malformed body / missing required fields", () => {
+      const newComment = {};
+      return request(app)
+        .post("/api/articles/2/comments")
+        .send(newComment)
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("Missing required fields");
+        });
+    });
+    test("Status: 400, bad request - failing schema validation", () => {
+      const newComment = {
+        username: 1234,
+        body: true,
+      };
+      return request(app)
+        .post("/api/articles/2/comments")
+        .send(newComment)
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("Failing schema validation");
+        });
+    });
+    test("Status: 404, the article does not exist", () => {
+      const newComment = {
+        username: "rogersop",
+        body: "This is a test comment.",
+      };
+      return request(app)
+        .post("/api/articles/123456789/comments")
+        .send(newComment)
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("No article found for article_id: 123456789");
+        });
+    });
+  });
 });
