@@ -1,4 +1,6 @@
 const db = require("../db/connection");
+// Set variable to current date and time
+const now = new Date();
 
 //HELPER FUNCTION
 exports.checkArticleExists = (articleId) => {
@@ -17,5 +19,24 @@ exports.fetchCommentsByArticleId = (articleId) => {
     )
     .then(({ rows }) => {
       return rows;
+    });
+};
+
+exports.addCommentToArticle = (comment, articleId) => {
+  const commentToPost = {
+    body: comment.body,
+    votes: 0,
+    author: comment.username,
+    article_id: articleId,
+    created_at: new Date(),
+  };
+  const { body, votes, author, article_id, created_at } = commentToPost;
+  return db
+    .query(
+      "INSERT INTO comments (body, votes, author, article_id, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING *;",
+      [body, votes, author, article_id, created_at]
+    )
+    .then(({ rows }) => {
+      return rows[0];
     });
 };
