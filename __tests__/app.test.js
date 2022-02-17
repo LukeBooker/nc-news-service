@@ -41,16 +41,16 @@ describe("app", () => {
         .get("/api/articles/2")
         .expect(200)
         .then(({ body: { article } }) => {
-          expect(article).toEqual({
-            article_id: 2,
-            title: "Sony Vaio; or, The Laptop",
-            topic: "mitch",
-            author: "icellusedkars",
-            body: expect.any(String),
-            created_at: expect.any(String),
-            votes: 0,
-            comment_count: expect.any(String),
-          });
+          expect(article).toEqual(
+            expect.objectContaining({
+              author: "icellusedkars",
+              title: "Sony Vaio; or, The Laptop",
+              article_id: 2,
+              topic: "mitch",
+              created_at: expect.any(String),
+              votes: 0,
+            })
+          );
         });
     });
     test("Feature Request: Responds with correct comment count", () => {
@@ -198,13 +198,38 @@ describe("app", () => {
           expect(articles).toBeSortedBy("created_at", {
             descending: true,
           });
-          expect(articles[11]).toEqual({
+          expect(articles[11]).toEqual(
+            expect.objectContaining({
+              author: "icellusedkars",
+              title: "Z",
+              article_id: 7,
+              topic: "mitch",
+              created_at: expect.any(String),
+              votes: 0,
+            })
+          );
+        });
+    });
+    test("Feature Request: responds with an comment count on each article object", () => {
+      return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          articles.forEach((article) => {
+            expect(article).toEqual(
+              expect.objectContaining({
+                comment_count: expect.any(String),
+              })
+            );
+          });
+          expect(articles[0]).toEqual({
             author: "icellusedkars",
-            title: "Z",
-            article_id: 7,
+            title: "Eight pug gifs that remind me of mitch",
+            article_id: 3,
             topic: "mitch",
             created_at: expect.any(String),
             votes: 0,
+            comment_count: "2",
           });
         });
     });

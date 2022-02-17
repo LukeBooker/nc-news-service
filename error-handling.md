@@ -57,11 +57,12 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ### POST `/api/articles/:article_id/comments`
 
--
+- 400 Bad Request /api/articles/:article_id/comments: {} -> malformed body / missing required fields:
+- 400 Bad Request /api/articles/:article_id/comments: { rating_out_of_five: 6 } -> failing schema validation:
 
 ### GET `/api/articles/:article_id/comments`
 
--
+- 404 - Status: the article does not exist. Responds correctly with empty array and 200 when no comments exist.
 
 ### GET `/api/articles`
 
