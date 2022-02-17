@@ -185,6 +185,7 @@ describe("app", () => {
                 topic: expect.any(String),
                 created_at: expect.any(String),
                 votes: expect.any(Number),
+                comment_count: expect.any(String),
               })
             );
           });
@@ -205,6 +206,16 @@ describe("app", () => {
             topic: "mitch",
             created_at: expect.any(String),
             votes: 0,
+            comment_count: "0",
+          });
+          expect(articles[0]).toEqual({
+            author: "icellusedkars",
+            title: "Eight pug gifs that remind me of mitch",
+            article_id: 3,
+            topic: "mitch",
+            created_at: expect.any(String),
+            votes: 0,
+            comment_count: "2",
           });
         });
     });
