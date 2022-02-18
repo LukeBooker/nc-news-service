@@ -17,8 +17,11 @@ const {
   postCommentToArticle,
   deleteCommentById,
 } = require("./controllers/comments-controller");
+const { getApiDescription } = require("./controllers/api-controller");
 
 app.use(express.json());
+
+app.get("/api", getApiDescription);
 
 app.get("/api/topics", getTopics);
 

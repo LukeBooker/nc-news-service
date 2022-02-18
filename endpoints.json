@@ -1,27 +1,101 @@
 {
   "GET /api": {
-    "description": "serves up a json representation of all the available endpoints of the api"
+    "description": "responds with a json representation of all the available endpoints of the api"
   },
   "GET /api/topics": {
-    "description": "serves an array of all topics",
+    "description": "responds with an array of topic objects, each of which should have the properties: slug, description",
     "queries": [],
     "exampleResponse": {
-      "topics": [{ "slug": "football", "description": "Footie!" }]
+      "topics": [
+        { "description": "Code is love, code is life", "slug": "coding" }
+      ]
     }
   },
-  "GET /api/articles": {
-    "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
+  "GET /api/articles/:article_id": {
+    "description": "responds with an article object by id containing the correct article properties",
+    "queries": [],
     "exampleResponse": {
-      "articles": [
+      "articles": {
+        "article_id": 1,
+        "title": "Living in the shadow of a great man",
+        "topic": "mitch",
+        "author": "butter_bridge",
+        "body": "I find this existence challenging",
+        "created_at": 1589418120000,
+        "votes": 100,
+        "comment_count": "11"
+      }
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "Responds with article containing incremented/decremented votes",
+    "queries": [],
+    "exampleResponse": {
+      "article_id": 1,
+      "title": "Living in the shadow of a great man",
+      "topic": "mitch",
+      "author": "butter_bridge",
+      "body": "article body",
+      "created_at": 1589418120000,
+      "votes": 78
+    }
+  },
+  "GET /api/users": {
+    "description": "Responds with an array of objects, each object with the sole property `username",
+    "queries": [],
+    "exampleResponse": {
+      "usernames": [
         {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
+          "username": "butter_bridge"
         }
       ]
     }
+  },
+  "GET /api/articles": {
+    "description": "Responds with an array of article objects, each object with the correct properties",
+    "queries": ["sort_by", "order", "topic"],
+    "exampleResponse": {
+      "articles": [
+        {
+          "author": "icellusedkars",
+          "title": "Eight pug gifs that remind me of mitch",
+          "article_id": 3,
+          "topic": "mitch",
+          "created_at": 1589418120000,
+          "votes": 0,
+          "comment_count": "2"
+        }
+      ]
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "Responds with an array of comments, each containing the correct properties",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "body": "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
+          "votes": 7,
+          "author": "grumpy19",
+          "article_id": 4,
+          "created_at": 1577890920000
+        }
+      ]
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "Responds with comment newly added to the database",
+    "queries": [],
+    "exampleResponse": {
+      "comment_id": 19,
+      "body": "This is a test comment.",
+      "article_id": 2,
+      "author": "rogersop",
+      "votes": 0,
+      "created_at": 1577890920000
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Deletes comment and responds with an empty response body"
   }
 }
