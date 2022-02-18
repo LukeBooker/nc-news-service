@@ -11,6 +11,15 @@ exports.checkArticleExists = (articleId) => {
     });
 };
 
+//HELPER FUNCTION
+exports.checkCommentExists = (commentId) => {
+  return db
+    .query("SELECT * FROM comments WHERE comment_id = $1;", [commentId])
+    .then(({ rows }) => {
+      return rows;
+    });
+};
+
 exports.fetchCommentsByArticleId = (articleId) => {
   return db
     .query(
@@ -39,4 +48,8 @@ exports.addCommentToArticle = (comment, articleId) => {
     .then(({ rows }) => {
       return rows[0];
     });
+};
+
+exports.removeCommentById = (commentId) => {
+  return db.query("DELETE FROM comments WHERE comment_id = $1;", [commentId]);
 };

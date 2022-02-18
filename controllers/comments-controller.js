@@ -2,6 +2,8 @@ const {
   fetchCommentsByArticleId,
   checkArticleExists,
   addCommentToArticle,
+  removeCommentById,
+  checkCommentExists,
 } = require("../models/comments-model");
 
 exports.getCommentsByArticleId = (req, res, next) => {
@@ -40,6 +42,27 @@ exports.postCommentToArticle = (req, res, next) => {
     })
     .then((addedComment) => {
       res.status(201).send({ comment: addedComment });
+    })
+    .catch(next);
+};
+
+exports.deleteCommentById = (req, res, next) => {
+  const commentId = req.params.comment_id;
+  checkCommentExists(commentId)
+    .then((comment) => {
+      if (comment.length === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: `No comment found for comment_id: ${commentId}`,
+        });
+      }
+      return;
+    })
+    .then(() => {
+      return removeCommentById(commentId);
+    })
+    .then(() => {
+      res.status(204).send();
     })
     .catch(next);
 };

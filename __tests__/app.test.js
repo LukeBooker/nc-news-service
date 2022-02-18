@@ -335,4 +335,35 @@ describe("app", () => {
         });
     });
   });
+  describe("DELETE /api/comments/:comment_id", () => {
+    test("Status: 204, deletes comment and responds with an empty response body", () => {
+      return request(app)
+        .delete("/api/comments/2")
+        .expect(204)
+        .then(() => {
+          return request(app)
+            .get("/api/articles/1/comments")
+            .expect(200)
+            .then(({ body: { comments } }) => {
+              expect(comments).toHaveLength(10);
+            });
+        });
+    });
+    test("Status: 404, the comment does not exist", () => {
+      return request(app)
+        .delete("/api/comments/123456789")
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("No comment found for comment_id: 123456789");
+        });
+    });
+    test("Status: 400, invalid comment id", () => {
+      return request(app)
+        .delete("/api/comments/cat")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("Bad Request");
+        });
+    });
+  });
 });
