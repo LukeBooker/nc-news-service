@@ -1,3 +1,4 @@
+const { sendStatus } = require("express/lib/response");
 const {
   fetchCommentsByArticleId,
   checkArticleExists,
@@ -62,7 +63,7 @@ exports.deleteCommentById = (req, res, next) => {
       return removeCommentById(commentId);
     })
     .then(() => {
-      res.status(204).send();
+      res.sendStatus(204);
     })
     .catch(next);
 };
