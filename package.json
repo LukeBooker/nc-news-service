@@ -34,11 +34,15 @@
   },
   "dependencies": {
     "express": "^4.17.2",
+    "serve": "^13.0.2",
     "supertest": "^6.2.2"
   },
   "jest": {
     "setupFilesAfterEnv": [
       "jest-sorted"
     ]
+  },
+  "engines": {
+    "node": "17.0.1"
   }
 }
