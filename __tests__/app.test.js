@@ -9,6 +9,16 @@ afterAll(() => db.end());
 beforeEach(() => seed(data));
 
 describe("app", () => {
+  describe("GET /api", () => {
+    test("Status: 200, responds with a json representation of all the available endpoints of the api", () => {
+      return request(app)
+        .get("/api")
+        .expect(200)
+        .then(({ body: { description } }) => {
+          expect(Object.keys(description)[0]).toBe("GET /api");
+        });
+    });
+  });
   describe("GET /api/topics", () => {
     test("Status: 200, responds with an array of topic objects, each of which should have the properties: slug, description", () => {
       return request(app)
@@ -431,5 +441,3 @@ describe("app", () => {
     });
   });
 });
-
-// 11
