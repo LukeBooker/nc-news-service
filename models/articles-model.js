@@ -27,14 +27,37 @@ exports.modifyArticleVotes = (articleId, newVotes) => {
     .then(({ rows }) => rows[0]);
 };
 
-exports.fetchArticles = () => {
-  return db
-    .query(
-      `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, 
+exports.fetchArticles = (sortBy, orderBy, topic) => {
+  upperCaseOrderBy = orderBy.toUpperCase();
+  let queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, 
       COUNT(comments.comment_id) AS comment_count FROM articles 
-      LEFT JOIN comments ON articles.article_id = comments.article_id 
-      GROUP BY articles.article_id 
-      ORDER BY created_at DESC;`
+      LEFT JOIN comments ON articles.article_id = comments.article_id`;
+  const queryValues = [];
+
+  // TOPIC CHECK
+  if (topic) {
+    queryStr += ` WHERE topic = $1`;
+    queryValues.push(topic);
+  }
+  queryStr += ` GROUP BY articles.article_id`;
+
+  //GREEN LIST SORT BY
+  if (
+    !["author", "title", "article_id", "topic", "created_at", "votes"].includes(
+      sortBy
     )
-    .then((result) => result.rows);
+  ) {
+    return Promise.reject({ status: 400, msg: "Invalid sort query" });
+  }
+  queryStr += ` ORDER BY ${sortBy}`;
+
+  //GREEN LIST BY ASC / DESC
+  if (!["ASC", "DESC"].includes(upperCaseOrderBy)) {
+    return Promise.reject({ status: 400, msg: "Invalid order query" });
+  }
+  queryStr += ` ${upperCaseOrderBy};`;
+
+  return db.query(queryStr, queryValues).then(({ rows }) => {
+    return rows;
+  });
 };

@@ -31,7 +31,10 @@ exports.updateArticleVotes = (req, res, next) => {
 };
 
 exports.getArticles = (req, res, next) => {
-  fetchArticles()
+  const sortBy = req.query.sort_by || "created_at";
+  const orderBy = req.query.order || "DESC";
+  const topic = req.query.topic;
+  fetchArticles(sortBy, orderBy, topic)
     .then((articles) => {
       res.status(200).send({ articles });
     })
