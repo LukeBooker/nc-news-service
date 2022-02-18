@@ -233,6 +233,70 @@ describe("app", () => {
           });
         });
     });
+    test("Feature Request #16: client can sort query the articles by any valid column (defaults to descending)", () => {
+      return request(app)
+        .get("/api/articles?sort_by=author")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).toBeSortedBy("author", {
+            descending: true,
+          });
+        });
+    });
+    test("Feature Request #16: sort query defaults to date - descending", () => {
+      return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).toBeSortedBy("created_at", {
+            descending: true,
+          });
+        });
+    });
+    test("Feature Request #16: order can be set to asc or desc for ascending or descending (defaults to descending)", () => {
+      return request(app)
+        .get("/api/articles?sort_by=title&order=asc")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).toBeSortedBy("title", {
+            descending: false,
+          });
+        });
+    });
+    test("Feature Request #16: topic query filters the articles by the topic value specified in the query", () => {
+      return request(app)
+        .get("/api/articles?sort_by=author&order=asc&topic=mitch")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).toHaveLength(11);
+          expect(articles).toBeSortedBy("author", {
+            descending: false,
+          });
+          articles.forEach((article) => {
+            expect(article).toEqual(
+              expect.objectContaining({
+                topic: "mitch",
+              })
+            );
+          });
+        });
+    });
+    test("Feature Request #16: Status: 400, the sort request is invalid", () => {
+      return request(app)
+        .get("/api/articles?sort_by=cat")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("Invalid sort query");
+        });
+    });
+    test("Feature Request #16: Status: 400, the order request is invalid", () => {
+      return request(app)
+        .get("/api/articles?sort_by=title&order=cat")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("Invalid order query");
+        });
+    });
   });
   describe("GET /api/articles/:article_id/comments", () => {
     test("Status: 200, responds with an array of comments, each containing the correct properties`", () => {
@@ -336,3 +400,5 @@ describe("app", () => {
     });
   });
 });
+
+// 11
