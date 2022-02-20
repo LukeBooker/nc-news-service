@@ -1,6 +1,6 @@
 {
   "GET /api": {
-    "description": "responds with a json representation of all the available endpoints of the api"
+    "description": "responds with a JSON representation of all the available endpoints of the API"
   },
   "GET /api/topics": {
     "description": "responds with an array of topic objects, each of which should have the properties: slug, description",
@@ -28,7 +28,7 @@
     }
   },
   "PATCH /api/articles/:article_id": {
-    "description": "Responds with article containing incremented/decremented votes",
+    "description": "request body accepts an object in the form { inc_votes: newVote }, responds with article containing incremented/decremented votes",
     "queries": [],
     "exampleResponse": {
       "article_id": 1,
@@ -41,7 +41,7 @@
     }
   },
   "GET /api/users": {
-    "description": "Responds with an array of objects, each object with the sole property `username",
+    "description": "responds with an array of objects, each object with the sole property 'username'",
     "queries": [],
     "exampleResponse": {
       "usernames": [
@@ -52,7 +52,7 @@
     }
   },
   "GET /api/articles": {
-    "description": "Responds with an array of article objects, each object with the correct properties",
+    "description": "responds with an array of article objects, each object with the correct properties",
     "queries": ["sort_by", "order", "topic"],
     "exampleResponse": {
       "articles": [
@@ -69,7 +69,7 @@
     }
   },
   "GET /api/articles/:article_id/comments": {
-    "description": "Responds with an array of comments, each containing the correct properties",
+    "description": "responds with an array of comments, each containing the correct properties",
     "queries": [],
     "exampleResponse": {
       "comments": [
@@ -84,7 +84,7 @@
     }
   },
   "POST /api/articles/:article_id/comments": {
-    "description": "Responds with comment newly added to the database",
+    "description": "responds with comment newly added to the article by id",
     "queries": [],
     "exampleResponse": {
       "comment_id": 19,
@@ -96,6 +96,6 @@
     }
   },
   "DELETE /api/comments/:comment_id": {
-    "description": "Deletes comment and responds with an empty response body"
+    "description": "deletes comment by id and responds with an empty response body"
   }
 }
