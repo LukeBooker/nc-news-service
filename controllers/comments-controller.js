@@ -1,4 +1,3 @@
-const { sendStatus } = require("express/lib/response");
 const {
   fetchCommentsByArticleId,
   checkArticleExists,
@@ -14,7 +13,6 @@ exports.getCommentsByArticleId = (req, res, next) => {
     fetchCommentsByArticleId(articleId),
     checkArticleExists(articleId),
   ])
-
     .then((result) => {
       const comments = result[0];
       const article = result[1];
@@ -22,6 +20,11 @@ exports.getCommentsByArticleId = (req, res, next) => {
         return Promise.reject({
           status: 404,
           msg: `No article found for article_id: ${articleId}`,
+        });
+      }
+      if (comments.length === 0) {
+        return res.status(200).send({
+          msg: "No comments for this article yet",
         });
       }
       res.status(200).send({ comments });

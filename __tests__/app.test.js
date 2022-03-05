@@ -138,7 +138,7 @@ describe("app", () => {
         .send({})
         .expect(400)
         .then(({ body: { msg } }) => {
-          expect(msg).toBe("Bad Request");
+          expect(msg).toBe("Missing required fields");
         });
     });
     test("Status: 400, bad request - invalid `inc_votes`", () => {
@@ -307,6 +307,22 @@ describe("app", () => {
           expect(msg).toBe("Invalid order query");
         });
     });
+    test("Feature Request #16: Status: 404, topic does not exist ", () => {
+      return request(app)
+        .get("/api/articles?sort_by=author&order=asc&topic=invalid")
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("Topic not found");
+        });
+    });
+    test("Feature Request #16: Status: 200, topic is valid but no articles associated with that topic", () => {
+      return request(app)
+        .get("/api/articles?sort_by=author&order=asc&topic=paper")
+        .expect(200)
+        .then(({ body: { articles } }) => {
+          expect(articles).toEqual([]);
+        });
+    });
   });
   describe("GET /api/articles/:article_id/comments", () => {
     test("Status: 200, responds with an array of comments, each containing the correct properties`", () => {
@@ -331,13 +347,12 @@ describe("app", () => {
           );
         });
     });
-    test("Status: 200, the article exists but no comments associated with it. Responds with empty array", () => {
+    test("Status: 200, the article exists but no comments associated with it. Responds with a message to user", () => {
       return request(app)
         .get("/api/articles/4/comments")
         .expect(200)
-        .then(({ body: { comments } }) => {
-          expect(comments).toHaveLength(0);
-          expect(comments).toEqual([]);
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("No comments for this article yet");
         });
     });
     test("Status: 404, the article does not exist", () => {
