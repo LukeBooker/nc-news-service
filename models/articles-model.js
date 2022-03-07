@@ -21,7 +21,7 @@ exports.fetchArticleById = (articleId) => {
 exports.modifyArticleVotes = (articleId, newVotes) => {
   return db
     .query(
-      "UPDATE articles SET votes = $1 WHERE article_id = $2 RETURNING *;",
+      "UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;",
       [newVotes, articleId]
     )
     .then(({ rows }) => rows[0]);
@@ -34,7 +34,7 @@ exports.fetchArticles = (sortBy, orderBy, topic) => {
       LEFT JOIN comments ON articles.article_id = comments.article_id`;
   const queryValues = [];
 
-  // TOPIC CHECK
+  // TOPIC ENTERED CHECK
   if (topic) {
     queryStr += ` WHERE topic = $1`;
     queryValues.push(topic);

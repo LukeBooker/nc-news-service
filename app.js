@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const {
   handlePsqlErrors,
@@ -18,6 +19,8 @@ const {
   deleteCommentById,
 } = require("./controllers/comments-controller");
 const { getApiDescription } = require("./controllers/api-controller");
+
+app.use(cors());
 
 app.use(express.json());
 
