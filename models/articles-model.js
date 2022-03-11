@@ -43,9 +43,15 @@ exports.fetchArticles = (sortBy, orderBy, topic) => {
 
   //GREEN LIST SORT BY
   if (
-    !["author", "title", "article_id", "topic", "created_at", "votes"].includes(
-      sortBy
-    )
+    ![
+      "author",
+      "title",
+      "article_id",
+      "topic",
+      "created_at",
+      "votes",
+      "comment_count",
+    ].includes(sortBy)
   ) {
     return Promise.reject({ status: 400, msg: "Invalid sort query" });
   }
