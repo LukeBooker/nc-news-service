@@ -160,7 +160,7 @@ describe("app", () => {
         });
     });
   });
-  describe("GET /api/users", () => {
+  describe.only("GET /api/users", () => {
     test("Status: 200, responds with an array of objects, each object with the sole property `username`", () => {
       return request(app)
         .get("/api/users")
@@ -170,9 +170,10 @@ describe("app", () => {
           expect(users[0].username).toEqual("butter_bridge");
           users.forEach((user) => {
             expect(user).toEqual(
-              expect.not.objectContaining({
+              expect.objectContaining({
                 name: expect.any(String),
                 avatar_url: expect.any(String),
+                username: expect.any(String),
               })
             );
           });
