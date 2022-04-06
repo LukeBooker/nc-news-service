@@ -343,6 +343,7 @@ describe("app", () => {
               })
             );
           });
+          console.log(comments);
           expect(comments[0]).toEqual(
             expect.not.objectContaining({ article_id: expect.any(Number) })
           );
