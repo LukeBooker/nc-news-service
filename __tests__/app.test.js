@@ -160,7 +160,7 @@ describe("app", () => {
         });
     });
   });
-  describe.only("GET /api/users", () => {
+  describe("GET /api/users", () => {
     test("Status: 200, responds with an array of objects, each object with the sole property `username`", () => {
       return request(app)
         .get("/api/users")

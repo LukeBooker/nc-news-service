@@ -1,19 +1,21 @@
-# Northcoders News API
+# :newspaper: Northcoders News API :newspaper:
 
-## Project Summary
+Link to deployed site - [Luke Booker's NC News](https://resplendent-croissant-393b15.netlify.app/)
+
+## :speech_balloon: Project Summary
 
 The intention of this project was to build a RESTful API for the purpose of accessing application data programmatically. The goal here was to mimic the building of a real world backend service (such as reddit) which should provide this information to the front end architecture.
 
 The database uses PSQL, and interacts with it using node-postgres.
 
-## Start instructions for new developer
+## :computer: Start instructions for new developer
 
 ### How to clone
 
 Using terminal:
 `cd` into the correct directory for this repository
 `git clone https://github.com/LukeBooker/nc-news-service.git` to clone this repository
-`cd nc-news-service` in the newly cloned directory, open with your chosen
+`cd nc-news-service` in the newly cloned directory, open with your chosen code editor.
 
 ### Install dependencies
 
@@ -63,7 +65,7 @@ Tests should seed the test database first and then run on this test database. Th
 
 `jest-sorted` can be installed and utilized when testing for sorted data
 
-## Endpoints
+## :left_right_arrow: Endpoints
 
 The project currently has the following endpoints:
 
@@ -77,7 +79,7 @@ The project currently has the following endpoints:
 - `POST /api/articles/:article_id/comments` - responds with comment newly added to the article by id
 - `DELETE /api/comments/:comment_id` - responds with comment newly added to the article by id
 
-## Hosting
+## :eight_spoked_asterisk: Hosting
 
 This API project is hosted on Heroku.
 
