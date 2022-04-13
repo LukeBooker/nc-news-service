@@ -1,6 +1,6 @@
 # :newspaper: Northcoders News API :newspaper:
 
-Link to deployed site - [Luke Booker's NC News](https://resplendent-croissant-393b15.netlify.app/)
+**Link to hosted API: https://northcoders-news-project.herokuapp.com/api**
 
 ## :speech_balloon: Project Summary
 
@@ -83,4 +83,4 @@ The project currently has the following endpoints:
 
 This API project is hosted on Heroku.
 
-**Link to hosted version: https://northcoders-news-project.herokuapp.com/api**
+**Link to FE site created with this API - [Luke Booker's NC News](https://resplendent-croissant-393b15.netlify.app/)**

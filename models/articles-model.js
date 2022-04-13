@@ -34,14 +34,12 @@ exports.fetchArticles = (sortBy, orderBy, topic) => {
       LEFT JOIN comments ON articles.article_id = comments.article_id`;
   const queryValues = [];
 
-  // TOPIC ENTERED CHECK
   if (topic) {
     queryStr += ` WHERE topic = $1`;
     queryValues.push(topic);
   }
   queryStr += ` GROUP BY articles.article_id`;
 
-  //GREEN LIST SORT BY
   if (
     ![
       "author",
@@ -57,7 +55,6 @@ exports.fetchArticles = (sortBy, orderBy, topic) => {
   }
   queryStr += ` ORDER BY ${sortBy}`;
 
-  //GREEN LIST BY ASC / DESC
   if (!["ASC", "DESC"].includes(upperCaseOrderBy)) {
     return Promise.reject({ status: 400, msg: "Invalid order query" });
   }

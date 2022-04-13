@@ -1,8 +1,5 @@
 const db = require("../db/connection");
-// Set variable to current date and time
-const now = new Date();
 
-//HELPER FUNCTION
 exports.checkArticleExists = (articleId) => {
   return db
     .query("SELECT * FROM articles WHERE article_id = $1;", [articleId])
@@ -11,7 +8,6 @@ exports.checkArticleExists = (articleId) => {
     });
 };
 
-//HELPER FUNCTION
 exports.checkCommentExists = (commentId) => {
   return db
     .query("SELECT * FROM comments WHERE comment_id = $1;", [commentId])

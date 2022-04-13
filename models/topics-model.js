@@ -6,7 +6,6 @@ exports.fetchTopics = () => {
   });
 };
 
-//HELPER FUNCTION
 exports.checkTopicExists = (topic) => {
   return db
     .query("SELECT * FROM topics WHERE slug = $1;", [topic])
